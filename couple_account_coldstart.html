@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>情侣账号 · 冷启动手册</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --g:       #C0395A;
+  --g2:      #D9547A;
+  --g3:      #F0A0B8;
+  --gd:      #7A1A35;
+  --gp:      #FDF0F4;
+  --gp2:     #F8D8E4;
+  --gold:    #C8973A;
+  --goldt:   #FFF3DC;
+  --ink:     #111111;
+  --ink2:    #444444;
+  --ink3:    #888888;
+  --ink4:    #BBBBBB;
+  --bg:      #FBF5F7;
+  --card:    #FFFFFF;
+  --border:  #EDD8E0;
+  --border2: #DDB8C8;
+  --r:       14px;
+  --r2:      10px;
+  --sh:      0 2px 16px rgba(192,57,90,.07);
+  --sh2:     0 4px 24px rgba(192,57,90,.13);
+  --red:     #E53935;
+  --redp:    #FFEBEE;
+  --blue:    #1565C0;
+  --bluep:   #E3F2FD;
+  --amber:   #E65100;
+  --amberp:  #FFF3E0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:90px;font-size:14px;}
+
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0 12px;cursor:pointer;border:none;background:none;color:var(--ink3);font-family:'Noto Sans SC',sans-serif;font-size:10px;gap:4px;transition:color .15s;-webkit-tap-highlight-color:transparent;}
+.nav-item.active{color:var(--g);}
+.nav-icon{font-size:22px;line-height:1;}
+
+.page{display:none;padding:0 0 12px;}
+.page.active{display:block;}
+
+.page-header{background:var(--g);padding:52px 20px 20px;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(192,57,90,.25);}
+.page-header h1{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:900;letter-spacing:.03em;}
+.page-header p{font-size:11px;color:rgba(255,255,255,.6);margin-top:3px;}
+
+.prog-wrap{margin-top:12px;}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.prog-label{font-size:12px;color:rgba(255,255,255,.8);}
+.prog-num{font-family:'DM Mono',monospace;font-size:12px;color:#F8C0D0;}
+.prog-bar{background:rgba(255,255,255,.2);border-radius:99px;height:5px;overflow:hidden;}
+.prog-fill{height:100%;background:#F8C0D0;border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1);}
+
+.section{padding:16px 16px 0;}
+.section-title{font-size:11px;font-weight:600;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.section-title::before{content:'';width:3px;height:14px;background:var(--g);border-radius:2px;}
+
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
+.card+.card{margin-top:10px;}
+
+/* PAGE 1 */
+.today-banner{margin:12px 16px 0;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:var(--r);padding:12px 14px;color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh2);}
+.today-banner-left{flex:1;}
+.today-banner-title{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;}
+.today-banner-sub{font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;}
+.today-banner-count{font-family:'DM Mono',monospace;font-size:22px;font-weight:700;background:rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;text-align:center;}
+.today-banner-count small{display:block;font-size:9px;font-weight:400;opacity:.8;}
+
+.filter-scroll{display:flex;gap:7px;padding:12px 16px;overflow-x:auto;scrollbar-width:none;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:110px;z-index:90;box-shadow:var(--sh);}
+.filter-scroll::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;padding:5px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);color:var(--ink2);font-size:11px;font-family:'Noto Sans SC',sans-serif;cursor:pointer;white-space:nowrap;transition:all .15s;-webkit-tap-highlight-color:transparent;}
+.chip.active{background:var(--g);border-color:var(--g);color:#fff;font-weight:500;}
+
+.loc-group{margin:12px 16px 0;}
+.loc-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;user-select:none;transition:all .15s;box-shadow:var(--sh);}
+.loc-head.open{border-color:var(--g);background:var(--gp);}
+.loc-icon2{width:34px;height:34px;border-radius:8px;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.loc-info{flex:1;min-width:0;}
+.loc-name{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;}
+.loc-sub{font-size:10px;color:var(--ink3);margin-top:1px;}
+.loc-badge{font-family:'DM Mono',monospace;font-size:10px;background:var(--gp);color:var(--g);padding:3px 8px;border-radius:99px;border:1px solid rgba(192,57,90,.2);white-space:nowrap;flex-shrink:0;}
+.loc-arr{font-size:11px;color:var(--ink4);transition:transform .2s;flex-shrink:0;}
+.loc-head.open .loc-arr{transform:rotate(90deg);}
+
+.shots-list{display:none;flex-direction:column;gap:8px;padding:8px 0;}
+.shots-list.open{display:flex;}
+
+.shot-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:border-color .15s;box-shadow:var(--sh);}
+.shot-card.done{border-color:var(--g2);background:var(--gp);}
+.shot-head{display:flex;align-items:flex-start;gap:10px;padding:12px;cursor:pointer;}
+.cb{width:20px;height:20px;border-radius:5px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:var(--card);cursor:pointer;}
+.shot-card.done .cb{background:var(--g);border-color:var(--g);}
+.cb svg{opacity:0;transition:opacity .15s;}
+.shot-card.done .cb svg{opacity:1;}
+.shot-body{flex:1;min-width:0;}
+.tags-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px;}
+.stag{font-size:9px;padding:2px 7px;border-radius:99px;font-weight:500;white-space:nowrap;}
+.t-early{background:#E8F4FD;color:#1A5C8A;}
+.t-noon{background:#FFF3E0;color:#9A4400;}
+.t-aft{background:#EDE7F6;color:#4A2A7A;}
+.t-eve{background:#FCE4EC;color:#8A1A3A;}
+.t-any{background:#F3F3F3;color:#555;}
+.t-launch{background:#FFF8E1;color:#8A5C00;border:1px solid #F0C840;}
+.shot-scene{font-size:13px;font-weight:500;line-height:1.4;}
+.shot-card.done .shot-scene{color:var(--g);text-decoration:line-through;text-decoration-color:var(--g3);}
+.dev-row{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.dtag{font-family:'DM Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;}
+.d-dev{background:#EEF2FF;color:#3A4A9A;}
+.d-ori{background:#FFF0F8;color:#8A2A6A;}
+.expand-toggle{font-size:10px;color:var(--g);background:none;border:none;cursor:pointer;margin-top:7px;font-family:'Noto Sans SC',sans-serif;display:flex;align-items:center;gap:3px;padding:0;}
+.ea{display:inline-block;transition:transform .2s;}
+.expand-toggle.open .ea{transform:rotate(90deg);}
+.shot-detail{display:none;border-top:1px solid var(--border);}
+.shot-detail.open{display:block;}
+.det-sec{padding:12px 14px;border-bottom:1px solid var(--border);}
+.det-sec:last-child{border-bottom:none;}
+.det-label{font-size:9px;font-weight:600;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.det-label::before{content:'';width:2px;height:10px;background:var(--g);border-radius:1px;}
+.det-txt{font-size:12px;line-height:1.75;color:var(--ink2);white-space:pre-wrap;}
+.audio-box{background:var(--gp);border:1px solid rgba(192,57,90,.18);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.75;font-family:'Noto Serif SC',serif;white-space:pre-wrap;color:var(--gd);}
+.tip-box{background:#FFFBEA;border:1px solid #F0D060;border-radius:8px;padding:8px 11px;font-size:11px;color:#7A5500;line-height:1.6;margin-top:7px;white-space:pre-wrap;}
+
+/* PAGE 2 */
+.scripts-library{margin:12px 16px 0;}
+.script-video-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:10px;}
+.svc-header{padding:14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .15s;-webkit-tap-highlight-color:transparent;}
+.svc-header:active{background:var(--gp);}
+.svc-header.open{background:var(--gp);border-bottom:1px solid var(--border);}
+.svc-num{font-family:'DM Mono',monospace;font-size:10px;background:var(--g);color:#fff;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;}
+.svc-info{flex:1;min-width:0;}
+.svc-title{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;line-height:1.4;color:var(--ink);}
+.svc-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.svc-tag{font-size:9px;padding:2px 7px;border-radius:99px;background:var(--gp);color:var(--g);border:1px solid rgba(192,57,90,.2);}
+.svc-tag.gold{background:var(--goldt);color:var(--gold);border-color:rgba(200,151,58,.3);}
+.svc-arr{font-size:11px;color:var(--ink4);transition:transform .2s;flex-shrink:0;margin-top:4px;}
+.svc-header.open .svc-arr{transform:rotate(90deg);}
+.svc-del{font-size:16px;color:var(--ink4);background:none;border:none;cursor:pointer;padding:2px;flex-shrink:0;line-height:1;}
+.svc-body{display:none;padding:0 0 4px;}
+.svc-body.open{display:block;}
+.svc-positioning{margin:12px 14px 0;background:var(--goldt);border:1px solid rgba(200,151,58,.3);border-radius:8px;padding:9px 12px;font-size:11px;color:#7A5000;line-height:1.6;}
+.svc-xhs{margin:10px 14px 0;background:var(--gp);border:1px solid rgba(192,57,90,.18);border-radius:8px;padding:11px 13px;}
+.svc-xhs-label{font-size:9px;font-weight:700;color:var(--g);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;}
+.svc-xhs-text{font-size:12px;line-height:1.75;font-family:'Noto Serif SC',serif;color:var(--gd);white-space:pre-wrap;}
+.svc-edittip{margin:10px 14px 0;background:#FFFBEA;border:1px solid #F0D060;border-radius:8px;padding:9px 12px;font-size:11px;color:#7A5500;line-height:1.6;}
+.svc-edittip-label{font-size:9px;font-weight:700;color:#9A7000;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.svc-shots{margin:10px 14px 14px;}
+.svc-shots-label{font-size:9px;font-weight:700;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.svc-shots-label::before{content:'';width:2px;height:10px;background:var(--g);border-radius:1px;}
+.svc-shot{border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--card);}
+.svc-shot:last-child{margin-bottom:0;}
+.svc-shot-head{padding:10px 12px;display:flex;align-items:flex-start;gap:8px;cursor:pointer;background:var(--bg);-webkit-tap-highlight-color:transparent;}
+.svc-shot-head:active{background:var(--gp2);}
+.svc-shot-head.open{background:var(--gp);border-bottom:1px solid var(--border);}
+.sshot-num{font-family:'DM Mono',monospace;font-size:9px;background:var(--ink2);color:#fff;padding:1px 6px;border-radius:3px;flex-shrink:0;margin-top:2px;}
+.svc-shot-head.open .sshot-num{background:var(--g);}
+.sshot-info{flex:1;min-width:0;}
+.sshot-scene{font-size:12px;font-weight:500;line-height:1.4;color:var(--ink);}
+.sshot-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.sshot-loc{font-size:9px;padding:1px 6px;border-radius:4px;background:#EEF2FF;color:#3A4A9A;font-family:'DM Mono',monospace;}
+.sshot-time{font-size:9px;padding:1px 6px;border-radius:99px;font-weight:500;}
+.sshot-arr{font-size:10px;color:var(--ink4);transition:transform .2s;flex-shrink:0;margin-top:3px;}
+.svc-shot-head.open .sshot-arr{transform:rotate(90deg);}
+.svc-shot-detail{display:none;padding:10px 12px;}
+.svc-shot-detail.open{display:block;}
+.ssd-sec{margin-bottom:10px;}
+.ssd-sec:last-child{margin-bottom:0;}
+.ssd-label{font-size:9px;font-weight:600;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:4px;}
+.ssd-label::before{content:'';width:2px;height:9px;background:var(--g);border-radius:1px;}
+.ssd-txt{font-size:12px;line-height:1.75;color:var(--ink2);white-space:pre-wrap;}
+.ssd-audio{background:var(--gp);border:1px solid rgba(192,57,90,.18);border-radius:7px;padding:9px 11px;font-size:12px;line-height:1.75;font-family:'Noto Serif SC',serif;white-space:pre-wrap;color:var(--gd);}
+.ssd-tip{background:#FFFBEA;border:1px solid #F0D060;border-radius:7px;padding:7px 10px;font-size:11px;color:#7A5500;line-height:1.6;margin-top:6px;white-space:pre-wrap;}
+.script-status-row{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap;}
+.script-status-btn{font-size:9px;padding:3px 9px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);color:var(--ink3);cursor:pointer;font-family:'Noto Sans SC',sans-serif;transition:all .15s;white-space:nowrap;}
+.script-status-btn.active-pending{background:#F3F3F3;border-color:#999;color:#444;}
+.script-status-btn.active-shooting{background:#E3F2FD;border-color:var(--blue);color:var(--blue);}
+.script-status-btn.active-editing{background:var(--amberp);border-color:var(--amber);color:var(--amber);}
+.script-status-btn.active-published{background:var(--gp);border-color:var(--g);color:var(--g);}
+
+/* Import module */
+.import-wrap{margin:14px 16px 0;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
+.import-header{padding:12px 14px;background:var(--gp);border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px;}
+.import-title{font-size:13px;font-weight:600;color:var(--g);}
+.import-hint{font-size:10px;color:var(--ink3);}
+.import-body{padding:12px 14px;}
+.import-file-area{border:2px dashed var(--border2);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg);}
+.import-file-area:active{border-color:var(--g);background:var(--gp);}
+.import-file-icon{font-size:28px;margin-bottom:6px;}
+.import-file-text{font-size:12px;color:var(--ink3);}
+.import-preview{padding:0 14px 14px;}
+.import-preview:empty{display:none;}
+.preview-card{background:var(--gp);border:1.5px solid var(--g);border-radius:10px;padding:12px 14px;}
+.preview-title{font-size:14px;font-weight:600;color:var(--g);margin-bottom:4px;}
+.preview-meta{font-size:11px;color:var(--ink3);margin-bottom:10px;}
+.preview-shots-count{font-size:11px;color:var(--ink2);background:var(--card);border-radius:6px;padding:6px 10px;margin-bottom:10px;}
+.preview-actions{display:flex;gap:8px;}
+.btn-import-confirm{flex:2;padding:10px;background:var(--g);color:#fff;border:none;border-radius:8px;font-family:'Noto Sans SC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-import-cancel{flex:1;padding:10px;background:none;color:var(--ink2);border:1.5px solid var(--border);border-radius:8px;font-family:'Noto Sans SC',sans-serif;font-size:13px;cursor:pointer;}
+
+/* PAGE 3 — CALENDAR */
+.cal-wrap{margin:14px 16px 0;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.cal-month{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;}
+.cal-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;color:var(--ink2);transition:all .15s;}
+.cal-btn:active{background:var(--gp);border-color:var(--g);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-dow{text-align:center;font-size:10px;font-weight:600;color:var(--ink3);padding:6px 0;letter-spacing:.05em;}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:13px;position:relative;transition:all .15s;user-select:none;-webkit-tap-highlight-color:transparent;}
+.cal-day:empty{cursor:default;}
+.cal-day.today{background:var(--gp);color:var(--g);font-weight:700;}
+.cal-day.has-post{font-weight:600;}
+.cal-day .dot{width:5px;height:5px;border-radius:99px;background:var(--g);position:absolute;bottom:4px;}
+.cal-day.selected{background:var(--g);color:#fff;}
+.cal-day.selected .dot{background:#fff;}
+.cal-day:not(:empty):hover{background:var(--gp);}
+.cal-detail{margin-top:12px;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
+.cal-detail-header{padding:12px 14px;background:var(--gp);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cal-detail-header h3{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:700;}
+.btn-add-post{background:var(--g);color:#fff;border:none;border-radius:99px;padding:6px 14px;font-size:11px;font-family:'Noto Sans SC',sans-serif;cursor:pointer;}
+.post-list{padding:4px 0;}
+.post-item{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.post-item:last-child{border-bottom:none;}
+.post-status{width:8px;height:8px;border-radius:99px;flex-shrink:0;margin-top:5px;}
+.st-draft{background:var(--ink4);}
+.st-ready{background:var(--gold);}
+.st-published{background:var(--g);}
+.post-info{flex:1;}
+.post-title{font-size:13px;font-weight:500;line-height:1.4;}
+.post-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.post-tag{font-size:9px;padding:1px 6px;border-radius:99px;background:var(--gp);color:var(--g);}
+.post-tag.douyin{background:#FFE8E8;color:#CC0000;}
+.post-tag.xiaohongshu{background:#FFE8F0;color:#CC0055;}
+.post-del{font-size:16px;color:var(--ink4);background:none;border:none;cursor:pointer;padding:0;line-height:1;flex-shrink:0;}
+.empty-cal{padding:30px;text-align:center;color:var(--ink3);font-size:13px;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:none;align-items:flex-end;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border-radius:var(--r) var(--r) 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:20px 20px 40px;}
+.modal h2{font-family:'Noto Serif SC',serif;font-size:18px;font-weight:700;margin-bottom:16px;}
+.form-group{margin-bottom:14px;}
+.form-group label{font-size:11px;font-weight:600;color:var(--ink3);letter-spacing:.08em;display:block;margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Noto Sans SC',sans-serif;font-size:14px;color:var(--ink);background:var(--card);outline:none;transition:border-color .15s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--g);}
+.form-group textarea{min-height:70px;resize:none;}
+.platform-btns{display:flex;gap:8px;}
+.plt-btn{flex:1;padding:9px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Noto Sans SC',sans-serif;cursor:pointer;background:var(--card);color:var(--ink2);transition:all .15s;text-align:center;}
+.plt-btn.active.douyin{background:#FFE8E8;border-color:#CC0000;color:#CC0000;}
+.plt-btn.active.xhs{background:#FFE8F0;border-color:#CC0055;color:#CC0055;}
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:var(--r2);background:none;font-size:13px;font-family:'Noto Sans SC',sans-serif;cursor:pointer;color:var(--ink2);}
+.btn-confirm{flex:2;padding:12px;background:var(--g);color:#fff;border:none;border-radius:var(--r2);font-size:13px;font-family:'Noto Sans SC',sans-serif;font-weight:600;cursor:pointer;}
+/* PAGE 4 */
+.note-input-wrap{margin:14px 16px 0;background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;}
+.note-input-top{padding:12px 14px 0;}
+textarea#noteInput{width:100%;border:none;outline:none;resize:none;font-family:'Noto Sans SC',sans-serif;font-size:14px;line-height:1.6;color:var(--ink);background:transparent;min-height:90px;}
+textarea#noteInput::placeholder{color:var(--ink4);}
+.note-input-bottom{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-top:1px solid var(--border);background:var(--gp);}
+.note-type-btns{display:flex;gap:5px;}
+.ntbtn{font-size:10px;padding:3px 9px;border-radius:99px;border:1.5px solid var(--border);background:var(--card);color:var(--ink2);cursor:pointer;font-family:'Noto Sans SC',sans-serif;transition:all .15s;}
+.ntbtn.active{background:var(--g);border-color:var(--g);color:#fff;}
+.btn-note{background:var(--g);color:#fff;border:none;border-radius:99px;padding:7px 16px;font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:500;cursor:pointer;}
+.note-search-wrap{margin:12px 16px 0;position:relative;}
+.note-search-wrap input{width:100%;border:1.5px solid var(--border);border-radius:99px;padding:8px 14px 8px 36px;font-family:'Noto Sans SC',sans-serif;font-size:13px;color:var(--ink);background:var(--card);outline:none;transition:border-color .15s;}
+.note-search-wrap input:focus{border-color:var(--g);}
+.note-search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+.notes-list{margin:12px 16px 0;}
+.note-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r2);padding:12px 14px;box-shadow:var(--sh);margin-bottom:8px;position:relative;}
+.note-type-badge{font-size:9px;padding:2px 7px;border-radius:99px;font-weight:600;margin-bottom:7px;display:inline-block;}
+.nb-idea{background:#E8F5FF;color:#0A5A9A;}
+.nb-obs{background:#F3E8FF;color:#5A0A9A;}
+.nb-feel{background:#FFE8E8;color:#9A0A0A;}
+.nb-other{background:var(--gp);color:var(--g);}
+.note-text{font-size:13px;line-height:1.7;color:var(--ink);white-space:pre-wrap;}
+.note-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink4);margin-top:7px;}
+.note-send-btn{font-size:10px;padding:3px 10px;border-radius:99px;background:var(--gp);border:1.5px solid rgba(192,57,90,.3);color:var(--g);cursor:pointer;margin-top:7px;font-family:'Noto Sans SC',sans-serif;display:inline-flex;align-items:center;gap:4px;transition:all .15s;}
+.note-send-btn:active{background:var(--g);color:#fff;}
+.note-del{position:absolute;top:10px;right:12px;font-size:15px;color:var(--ink4);background:none;border:none;cursor:pointer;padding:0;}
+.copy-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;display:none;align-items:flex-end;}
+.copy-modal-overlay.open{display:flex;}
+.copy-modal{background:var(--card);border-radius:var(--r) var(--r) 0 0;width:100%;max-height:80vh;overflow-y:auto;padding:20px 20px 40px;}
+.copy-modal h2{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;margin-bottom:10px;}
+.copy-modal-hint{font-size:11px;color:var(--ink3);margin-bottom:12px;line-height:1.6;}
+.copy-modal-text{background:var(--gp);border:1.5px solid rgba(192,57,90,.2);border-radius:10px;padding:12px 14px;font-size:12px;line-height:1.75;color:var(--gd);white-space:pre-wrap;font-family:'Noto Serif SC',serif;margin-bottom:14px;}
+.copy-modal-actions{display:flex;gap:8px;}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--gd);color:#fff;padding:9px 18px;border-radius:99px;font-size:12px;z-index:400;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;}
+.empty{text-align:center;padding:40px 20px;color:var(--ink3);font-size:13px;}
+.empty-icon{font-size:36px;margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- PAGE 1: SHOTS -->
+<div class="page active" id="page-shots">
+  <div class="page-header">
+    <h1>拍摄清单</h1>
+    <p>情侣账号 · 冷启动素材 · 按场景分组</p>
+    <div class="prog-wrap">
+      <div class="prog-row">
+        <span class="prog-label">素材积累进度</span>
+        <span class="prog-num" id="progNum">0 / 0</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    </div>
+  </div>
+  <div id="todayBanner"></div>
+  <div class="filter-scroll" id="filterBar"></div>
+  <div id="shotsContent"></div>
+</div>
+
+<!-- PAGE 2: SCRIPTS -->
+<div class="page" id="page-scripts">
+  <div class="page-header">
+    <h1>内容脚本库</h1>
+    <p>每条视频的完整脚本 · 点击展开查看</p>
+  </div>
+  <div class="import-wrap">
+    <div class="import-header">
+      <span class="import-title">📥 导入新脚本</span>
+      <span class="import-hint">上传 Claude 生成的 JSON 文件，自动分配镜头到拍摄清单</span>
+    </div>
+    <div class="import-body">
+      <div class="import-file-area" id="importFileArea" onclick="document.getElementById('importFileInput').click()">
+        <div class="import-file-icon">📄</div>
+        <div class="import-file-text" id="importFileName">点击上传 JSON 脚本文件</div>
+        <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="handleImportFile(this)">
+      </div>
+    </div>
+    <div class="import-preview" id="importPreview"></div>
+  </div>
+  <div class="scripts-library">
+    <div id="scriptsList"></div>
+  </div>
+</div>
+
+<!-- PAGE 3: CALENDAR -->
+<div class="page" id="page-cal">
+  <div class="page-header">
+    <h1>内容日历</h1>
+    <p>规划发布节奏 · 管理选题状态</p>
+  </div>
+  <div class="cal-wrap">
+    <div class="cal-nav">
+      <button class="cal-btn" onclick="changeMonth(-1)">‹</button>
+      <div class="cal-month" id="calMonth"></div>
+      <button class="cal-btn" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-detail" id="calDetail">
+      <div class="cal-detail-header">
+        <h3 id="calDetailTitle">选择日期</h3>
+        <button class="btn-add-post" onclick="openModal()">+ 添加</button>
+      </div>
+      <div id="calPosts"><div class="empty-cal">点击日期查看或添加发布计划</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: NOTES -->
+<div class="page" id="page-notes">
+  <div class="page-header">
+    <h1>灵感速记</h1>
+    <p>随手记下两人互动 · 素材就在生活里</p>
+  </div>
+  <div class="note-input-wrap">
+    <div class="note-input-top">
+      <textarea id="noteInput" placeholder="今天发生的事……他说了一句让我哭笑不得的话……街猫又来了……"></textarea>
+    </div>
+    <div class="note-input-bottom">
+      <div class="note-type-btns">
+        <button class="ntbtn active" data-type="idea" onclick="setNoteType(this)">选题灵感</button>
+        <button class="ntbtn" data-type="obs" onclick="setNoteType(this)">现场观察</button>
+        <button class="ntbtn" data-type="feel" onclick="setNoteType(this)">感受</button>
+        <button class="ntbtn" data-type="other" onclick="setNoteType(this)">两人互动</button>
+      </div>
+      <button class="btn-note" onclick="saveNote()">记下</button>
+    </div>
+  </div>
+  <div class="note-search-wrap">
+    <span class="note-search-icon">🔍</span>
+    <input type="text" id="noteSearch" placeholder="搜索灵感…" oninput="renderNotes()">
+  </div>
+  <div class="notes-list" id="notesList"></div>
+</div>
+
+<!-- POST MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>添加发布计划</h2>
+    <div class="form-group">
+      <label>从脚本库选择（可选）</label>
+      <select id="postScriptPick" onchange="onScriptPick(this)">
+        <option value="">— 手动输入标题 —</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>标题 / 选题</label>
+      <input type="text" id="postTitle" placeholder="这条视频叫什么">
+    </div>
+    <div class="form-group">
+      <label>状态</label>
+      <select id="postStatus">
+        <option value="draft">草稿</option>
+        <option value="ready">待发布</option>
+        <option value="published">已发布</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>发布平台</label>
+      <div class="platform-btns">
+        <div class="plt-btn douyin" data-plt="douyin" onclick="togglePlatform(this)">抖音</div>
+        <div class="plt-btn xhs" data-plt="xhs" onclick="togglePlatform(this)">小红书</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>备注</label>
+      <textarea id="postNote" placeholder="素材准备情况、待拍镜头等..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-confirm" onclick="savePost()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- COPY TO CLAUDE MODAL -->
+<div class="copy-modal-overlay" id="copyModalOverlay">
+  <div class="copy-modal">
+    <h2>发给 Claude</h2>
+    <div class="copy-modal-hint">复制下方内容，粘贴到 Claude 对话框，直接生成脚本。</div>
+    <div class="copy-modal-text" id="copyModalText"></div>
+    <div class="copy-modal-actions">
+      <button class="btn-cancel" onclick="closeCopyModal()">关闭</button>
+      <button class="btn-confirm" onclick="doCopy()">复制</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-item active" data-page="shots" onclick="switchPage(this)"><span class="nav-icon">📷</span><span>清单</span></button>
+  <button class="nav-item" data-page="scripts" onclick="switchPage(this)"><span class="nav-icon">🎬</span><span>脚本</span></button>
+  <button class="nav-item" data-page="cal" onclick="switchPage(this)"><span class="nav-icon">📅</span><span>日历</span></button>
+  <button class="nav-item" data-page="notes" onclick="switchPage(this)"><span class="nav-icon">✏️</span><span>灵感</span></button>
+</nav>
+
+<script>
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function load(k,d=null){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function fmtDate(d){return d.toLocaleDateString('zh-CN',{month:'long',day:'numeric',weekday:'short'});}
+function switchPage(btn){
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('page-'+btn.dataset.page).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+const LOCATIONS=[
+  {id:'street',icon:'🐱',name:'卡萨布兰卡街道',sub:'随时 · 街猫出现时立刻拍',shots:[
+    {id:'s1',scene:'街猫出现 — 两人同时蹲下，但方式完全不同',time:'any',tName:'📌 随时',launch:true,dev:'手机 / Pocket 3',ori:'竖屏',
+     visual:'猫走进画面，两人同时蹲下去。她直接伸手摸，他掏出手机开始拍猫。两人都在，但各做各的。\n\n拍摄角度：第三视角固定机位，中景，保证两人同框。前3秒零台词，让动作说话。',
+     audio:'【无台词】猫走进画面，两人自然反应。\n\n保留所有环境音：街道声、阿拉伯语背景音、猫的声音。',
+     tip:'两人都喜欢但方式不同，这才是真实情侣的样子。「她摸猫，他拍猫」这个画面本身就是喜剧，不需要任何台词。'},
+    {id:'s2',scene:'他在拍猫 — 出镜说为什么拍',time:'any',tName:'📌 随时',launch:true,dev:'手机',ori:'竖屏',
+     visual:'他蹲着，手机对着猫，出镜说一句话。背景是街道，她在旁边摸猫的身影隐约可见。\n\n不刻意构图，拍他专注拍猫的状态。',
+     audio:'【出镜·他】这只猫，拍出来特别好看。\n\n语气认真，像在说一件很重要的事。',
+     tip:'他喜欢猫但用「拍」来表达，这和她直接上手摸形成反差。认真的语气比刻意搞笑更好笑。'},
+    {id:'s3',scene:'她在摸猫 — 出镜说感受',time:'any',tName:'📌 随时',launch:true,dev:'手机',ori:'竖屏',
+     visual:'她蹲着摸猫，出镜说话，不看他，只看猫。\n\n低角度，拍她蹲着的状态，背景隐约有他举着手机拍猫的身影。',
+     audio:'【出镜·她，蹲着】它今天心情很好，一直让我摸。\n\n陈述事实，语气温柔。',
+     tip:'两人都在跟猫互动，但完全不交流——她摸猫，他拍猫，各自沉浸。这种「平行的喜欢」比争论更有情侣质感。'},
+    {id:'s4',scene:'猫的选择 — 它去找谁了',time:'any',tName:'📌 随时',launch:true,dev:'手机',ori:'竖屏',
+     visual:'猫在两人之间，最终走向其中一个，或者在两人之间蹭来蹭去。不引导，让动物自然行动。\n\n近景特写，停足10秒不剪。',
+     audio:'【无台词】环境音全保留。\n\n猫的选择本身就是结局，不需要任何解说。',
+     tip:'「猫最后去找谁」是整条视频最大的悬念，也是评论区讨论的焦点。绝对不要剪短，让观众看完猫的完整行动。'},
+    {id:'s5',scene:'结尾 — 两人各说一句，关于同一只猫',time:'any',tName:'📌 随时',launch:true,dev:'手机',ori:'竖屏',
+     visual:'猫离开后，两人并排，各说一句。\n\n中景两人同框，背景是卡萨布兰卡街道。',
+     audio:'【她】它今天特别黏人。\n【他】（看手机里的照片）拍了二十几张，就这两张好看。\n\n两人说的是同一只猫，但完全不在同一个频道。',
+     tip:'结尾不需要总结，两句话各说各的就够了。「她说感受，他说照片」——这个错位本身就是这段关系最真实的样子。'},
+    {id:'s6',scene:'黑屏字幕 — 两句话收场',time:'any',tName:'📌 后期',launch:true,dev:'后期制作',ori:'竖屏',
+     visual:'黑屏，字幕出现，停留2秒，自然结束。\n\n不配音读出来，让用户自己读。',
+     audio:'【字幕·黑屏】两个中国人，住在卡萨布兰卡。\n喜欢同一只猫，但从来不用同一种方式。\n\n停留2秒，自然结束，不加关注引导。',
+     tip:'字幕出现在黑屏上，不配音。这两句话比「永远不会达成共识」更准确——他们其实是一致的，只是表达不同。'},
+  ]},
+  {id:'beach',icon:'🌊',name:'海边 · 日落',sub:'傍晚日落时 · 账号固定场景',shots:[
+    {id:'b1',scene:'两人日落背影 — 不说话',time:'eve',tName:'🌆 傍晚·日落',launch:true,dev:'手机',ori:'横屏→裁竖',
+     visual:'两人并排站在海边，背对镜头，看日落。不说话，不互动，就是两个人站着。\n\n拍摄角度：找一个地方放稳手机，低角度拍两人背影+海平线。',
+     audio:'【无台词】海浪声，环境音全保留，无背景音乐。\n\n【字幕可选】两个中国人，住在卡萨布兰卡。',
+     tip:'这是账号第二条内容的核心画面。「不说话」的亲密感在所有情侣内容里极度稀缺，这本身就是差异化。'},
+    {id:'b2',scene:'固定位置 — 两人常坐的那个角落',time:'eve',tName:'🌆 傍晚',launch:false,dev:'Pocket 3',ori:'竖屏',
+     visual:'两人在海边常坐的那个位置。拍两人走进去坐下的过程。\n\n拍摄角度：Pocket 3 固定，拍那个位置的空镜+两人走进。',
+     audio:'【字幕】在卡萨布兰卡，我们在海边有一个固定的位置。\n\n【声音】海浪声。',
+     tip:'固定场景让用户产生「回到熟悉地方」的归属感，算法也会因内容一致性给予更稳定推荐。'},
+  ]},
+  {id:'home',icon:'🏠',name:'家里 · 日常',sub:'两人日常相处时',shots:[
+    {id:'h1',scene:'各自忙着 — 他电脑前，她窗边',time:'any',tName:'📌 随时',launch:true,dev:'手机',ori:'竖屏',
+     visual:'他在电脑前工作，她在窗边做自己的事。两个人都在，各自忙着，互不打扰。\n\n固定机位，拍这个场景10秒，不需要台词。',
+     audio:'【字幕】他在电脑前，我在窗边。摩洛哥的下午就这样过去了。\n\n【声音】室内安静，偶尔键盘声。',
+     tip:'「各自忙着」的亲密感是账号最核心的气质，这个画面本身就是内容。第4条发布的首选素材。'},
+    {id:'h2',scene:'两人不同步 — 各说一句今天的感受',time:'any',tName:'📌 随时',launch:false,dev:'手机',ori:'竖屏',
+     visual:'两个人今天状态不一样，分别出镜，各说一句今天的状态。\n\n不需要同框，分别单独出镜剪辑在一起。',
+     audio:'【她】今天在老城发现了一个很好玩的地方。\n【他】今天谈了一个比较麻烦的事。\n\n两个人的摩洛哥今天不一样。',
+     tip:'「两个人同步和不同步」是任何情侣账号都不会拍的内容，这是反甜腻的核心素材。'},
+  ]},
+  {id:'oldcity',icon:'🕌',name:'老城 · 集市',sub:'她逛老城时 · 偶尔他跟着去',shots:[
+    {id:'o1',scene:'同一条巷子 — 他看的和她看的',time:'aft',tName:'🌇 下午',launch:false,dev:'手机',ori:'竖屏',
+     visual:'分别拍两人在同一条老城巷子里的不同视角——她在看某个东西，他在看完全不同的东西。\n\n跟拍，各自一个视角，然后剪在一起。',
+     audio:'【字幕】他的老城和我的老城，是同一条巷子的两个版本。',
+     tip:'「同一个地方，两种看法」是双人账号最强的叙事结构，比任何单人vlog都有深度。'},
+    {id:'o2',scene:'同一道菜 — 他吃三碗，她一口放下',time:'noon',tName:'🌤 午饭',launch:false,dev:'手机',ori:'竖屏',
+     visual:'在当地餐厅，同一道菜，拍两人的不同反应。\n\n拍他吃得很香、她放下的连贯画面，不需要台词。',
+     audio:'【无台词】两人真实反应。\n【字幕·结尾】住了六年，对吃这件事我们还是没有达成一致。',
+     tip:'饮食反差是跨文化内容里最稳定的流量方向，加上「两个中国人之间也不一样」的内部反差，双重喜剧。'},
+  ]},
+];
+
+let currentFilter='all';
+let shotIdx=0;
+const filterDef=[
+  {key:'today',label:'⚡ 今日'},
+  {key:'all',label:'全部'},
+  {key:'launch',label:'⭐ 第一条必拍'},
+  {key:'aft',label:'🌇 下午'},
+  {key:'eve',label:'🌆 傍晚'},
+  {key:'any',label:'📌 随时'},
+];
+
+function getTodayTimeKey(){
+  const h=new Date().getHours();
+  if(h<11)return'early';if(h<14)return'noon';if(h<18)return'aft';return'eve';
+}
+function renderTodayBanner(){
+  const timeKey=getTodayTimeKey();
+  const timeLabels={early:'早晨',noon:'上午/中午',aft:'下午',eve:'傍晚/夜晚'};
+  const allShots=LOCATIONS.flatMap(l=>l.shots);
+  const todayShots=allShots.filter(s=>s.time===timeKey||s.time==='any');
+  const done=todayShots.filter(s=>load('s_'+s.id)===1).length;
+  const remaining=todayShots.length-done;
+  document.getElementById('todayBanner').innerHTML=`
+    <div class="today-banner" onclick="setTodayFilter()">
+      <div class="today-banner-left">
+        <div class="today-banner-title">今日素材任务</div>
+        <div class="today-banner-sub">当前时段：${timeLabels[timeKey]} · 点击查看</div>
+      </div>
+      <div class="today-banner-count">${remaining}<small>待拍</small></div>
+    </div>`;
+}
+function setTodayFilter(){currentFilter='today';renderFilterBar();renderShots();}
+function timeClass(t){return{early:'t-early',noon:'t-noon',aft:'t-aft',eve:'t-eve',any:'t-any'}[t]||'t-any';}
+function renderFilterBar(){
+  const bar=document.getElementById('filterBar');
+  bar.innerHTML=filterDef.map(f=>`<button class="chip${f.key===currentFilter?' active':''}" data-f="${f.key}">${f.label}</button>`).join('');
+  bar.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{currentFilter=c.dataset.f;renderFilterBar();renderShots();}));
+}
+function renderShots(){
+  shotIdx=0;
+  const content=document.getElementById('shotsContent');
+  content.innerHTML='';
+  const todayKey=getTodayTimeKey();
+  LOCATIONS.forEach(loc=>{
+    const filtered=loc.shots.filter(s=>{
+      if(currentFilter==='all')return true;
+      if(currentFilter==='launch')return s.launch;
+      if(currentFilter==='today')return s.time===todayKey||s.time==='any';
+      return s.time===currentFilter;
+    });
+    if(!filtered.length)return;
+    const grp=document.createElement('div');
+    grp.className='loc-group';
+    const doneCnt=filtered.filter(s=>load('s_'+s.id)===1).length;
+    grp.innerHTML=`
+      <div class="loc-head" data-loc="${loc.id}">
+        <div class="loc-icon2">${loc.icon}</div>
+        <div class="loc-info"><div class="loc-name">${loc.name}</div><div class="loc-sub">${loc.sub}</div></div>
+        <div class="loc-badge" id="lb_${loc.id}">${doneCnt}/${filtered.length}</div>
+        <div class="loc-arr">▶</div>
+      </div>
+      <div class="shots-list" id="sl_${loc.id}"></div>`;
+    const sl=grp.querySelector('.shots-list');
+    const lh=grp.querySelector('.loc-head');
+    lh.addEventListener('click',()=>{sl.classList.toggle('open');lh.classList.toggle('open');});
+    filtered.forEach(s=>{
+      shotIdx++;
+      const isDone=load('s_'+s.id)===1;
+      const card=document.createElement('div');
+      card.className='shot-card'+(isDone?' done':'');
+      card.innerHTML=`
+        <div class="shot-head">
+          <div class="cb"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5L4.5 8.5L9.5 2.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="shot-body">
+            <div class="tags-row">
+              <span class="stag ${timeClass(s.time)}">${s.tName}</span>
+              ${s.launch?'<span class="stag t-launch">⭐ 第一条必拍</span>':''}
+              <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink4);background:var(--bg);padding:2px 6px;border-radius:3px;">#${String(shotIdx).padStart(2,'0')}</span>
+            </div>
+            <div class="shot-scene">${s.scene}</div>
+            <div class="dev-row"><span class="dtag d-dev">📷 ${s.dev}</span><span class="dtag d-ori">${s.ori}</span></div>
+            <button class="expand-toggle" data-id="${s.id}"><span class="ea">▶</span> 展开详情</button>
+          </div>
+        </div>
+        <div class="shot-detail" id="sd_${s.id}">
+          <div class="det-sec"><div class="det-label">画面内容 & 拍摄角度</div><div class="det-txt">${s.visual}</div></div>
+          <div class="det-sec"><div class="det-label">台词 / 字幕 / 声音</div><div class="audio-box">${s.audio}</div>${s.tip?`<div class="tip-box">💡 ${s.tip}</div>`:''}</div>
+        </div>`;
+      card.querySelector('.cb').addEventListener('click',e=>{
+        e.stopPropagation();
+        const done=!card.classList.contains('done');
+        card.classList.toggle('done',done);
+        store('s_'+s.id,done?1:0);
+        updateProgress();
+        updateLocBadge(loc.id,filtered);
+        toast(done?'已记录 ✓':'已取消');
+      });
+      card.querySelector('.expand-toggle').addEventListener('click',e=>{
+        e.stopPropagation();
+        const det=document.getElementById('sd_'+s.id);
+        const btn=card.querySelector('.expand-toggle');
+        const open=det.classList.toggle('open');
+        btn.classList.toggle('open',open);
+        btn.innerHTML=`<span class="ea" style="${open?'transform:rotate(90deg)':''}">▶</span> ${open?'收起详情':'展开详情'}`;
+      });
+      sl.appendChild(card);
+    });
+    content.appendChild(grp);
+  });
+  updateProgress();
+}
+function updateLocBadge(locId,filtered){
+  const el=document.getElementById('lb_'+locId);
+  if(!el)return;
+  el.textContent=`${filtered.filter(s=>load('s_'+s.id)===1).length}/${filtered.length}`;
+}
+function updateProgress(){
+  const allShots=LOCATIONS.flatMap(l=>l.shots);
+  const total=allShots.length,done=allShots.filter(s=>load('s_'+s.id)===1).length;
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progNum').textContent=`${done} / ${total}`;
+}
+
+// PAGE 2
+const SCRIPTS=[
+  {id:'sc1',title:'卡萨布兰卡的街猫——她摸猫，他拍猫',
+   positioning:'流量层 · 冷启动第一条 — 动物 × 双人表达方式反差 × 异域感，三重钩子。两人都喜欢但方式不同，比一喜一烦更真实，评论区更容易站队。',
+   duration:'45–60秒',
+   editTip:'全片按顺序剪辑，不需要任何转场特效。前3秒零台词靠画面钩住。镜头04（猫的选择）是全片最大悬念，不要剪短。结尾两句话各说各的，不要加总结性旁白。环境音全程保留，不加背景音乐。',
+   shots:[
+     {no:1,scene:'开场 — 猫出现，两人同时蹲下但各做各的',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'猫走进画面，两人同时蹲下去。她直接伸手摸，他掏出手机开始拍猫。两人都在，但各做各的。\n\n第三视角固定机位，中景，保证两人同框。前3秒零台词。',
+      audio:'【无台词】保留所有环境音：街道声、阿拉伯语背景音、猫的声音。',
+      tip:'「她摸猫，他拍猫」这个画面本身就是喜剧。两人都喜欢但方式不同，陌生用户看到会立刻想知道接下来发生什么。'},
+     {no:2,scene:'他在拍猫 — 出镜说为什么拍',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'他蹲着，手机对着猫，出镜说一句话。背景是街道，她在旁边摸猫的身影隐约可见。\n\n不刻意构图，拍他专注拍猫的状态。',
+      audio:'【出镜·他】这只猫，拍出来特别好看。\n\n语气认真，像在说一件很重要的事。',
+      tip:'认真的语气比刻意搞笑更好笑。他喜欢猫但用「拍」来表达，这和她直接上手摸形成反差。'},
+     {no:3,scene:'她在摸猫 — 出镜说感受',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'她蹲着摸猫，出镜说话，不看他，只看猫。\n\n低角度，拍她蹲着的状态，背景隐约有他举着手机拍猫的身影。',
+      audio:'【出镜·她，蹲着】它今天心情很好，一直让我摸。\n\n陈述事实，语气温柔。',
+      tip:'两人都在跟猫互动，但完全不交流。「平行的喜欢」比争论更有情侣质感，也更真实。'},
+     {no:4,scene:'猫的选择 — 它去找谁了',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'猫在两人之间，最终走向其中一个，或者在两人之间蹭来蹭去。不引导，让动物自然行动。\n\n近景特写，停足10秒不剪。',
+      audio:'【无台词】环境音全保留。',
+      tip:'「猫最后去找谁」是整条视频最大的悬念，也是评论区讨论的焦点。绝对不要剪短，让观众看完猫的完整行动。'},
+     {no:5,scene:'结尾 — 两人各说一句，关于同一只猫',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'猫离开后，两人并排，各说一句。\n\n中景两人同框，背景是卡萨布兰卡街道。',
+      audio:'【她】它今天特别黏人。\n【他】（看手机里的照片）拍了二十几张，就这两张好看。\n\n两人说的是同一只猫，但完全不在同一个频道。',
+      tip:'两句话各说各的，不需要互相回应。「她说感受，他说照片」——这个错位本身就是这段关系最真实的样子。'},
+     {no:6,scene:'黑屏字幕 — 两句话收场',loc:'后期',time:'any',dev:'后期制作',ori:'竖屏',
+      visual:'黑屏，字幕出现，停留2秒，自然结束。\n\n不配音读出来，让用户自己读。',
+      audio:'【字幕·黑屏】两个中国人，住在卡萨布兰卡。\n喜欢同一只猫，但从来不用同一种方式。\n\n停留2秒，自然结束，不加关注引导。',
+      tip:'这两句话比「永远不会达成共识」更准确——他们其实是一致的，只是表达不同。这个细节会让真正的情侣用户感同身受。'},
+   ],
+   xhsCopy:`在卡萨布兰卡生活了六年。
+
+我们都喜欢这只猫。
+
+这件事本身没有任何分歧。
+
+但每次它出现，我们做的事情完全不一样。
+
+我蹲下去摸它。他掏出手机拍它。
+
+有一次我问他：你为什么不摸它？
+
+他说：摸完就没了，拍下来可以一直看。
+
+我想了一下，觉得他说得有点道理。
+
+但我还是继续摸。
+
+两个中国人，住在摩洛哥，喜欢同一只猫，但从来不用同一种方式。
+
+#摩洛哥 #卡萨布兰卡 #在摩洛哥生活 #情侣 #海外生活日记`},
+  {id:'sc2',title:'【后续】关于那只猫，他终于摸了',
+   positioning:'流量层 · 系列延伸 — 第一条评论区一定有人问「他有没有摸过猫」，这条直接回答这个问题。',
+   duration:'30–45秒',
+   editTip:'比第一条更短更轻。核心就是那个「他终于摸猫」的瞬间，前后各留几秒，不需要完整叙事。',
+   shots:[
+     {no:1,scene:'他终于伸手摸了 — 拍这个瞬间',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'猫又来了。这次他放下手机，伸手摸了一下。拍这个动作本身，不需要台词。\n\n她在旁边，拍到她的反应最好。',
+      audio:'【无台词或她的一句反应】\n【字幕】它还是来了。',
+      tip:'「他终于摸猫」这个瞬间是整个系列最大的转折，画面停够3秒，让观众看清楚。'},
+     {no:2,scene:'他出镜说为什么摸',loc:'卡萨布兰卡街道',time:'any',dev:'手机',ori:'竖屏',
+      visual:'他出镜，随意站着，说一句话。\n\n不刻意构图，背景街道可见。',
+      audio:'【出镜·他】摸了一下，感觉还行。\n\n语气平淡，像在做一个客观评价。',
+      tip:'「感觉还行」这四个字是整条视频最好笑的地方。平淡的语气不要破坏，不要让他表演兴奋。'},
+   ],
+   xhsCopy:`上一条视频很多人问：他有没有摸过那只猫？
+
+有了。
+
+上周它又来了，他放下手机，摸了一下。
+
+然后他说：感觉还行。
+
+我没说话。
+
+我觉得这是他能给出的最高评价了。
+
+#摩洛哥的猫 #卡萨布兰卡 #情侣日常`}
+];
+
+// ── LOCATION META ─────────────────────────────────────
+const LOC_META={};
+LOCATIONS.forEach(l=>{LOC_META[l.id]={name:l.name,icon:l.icon};});
+const TIME_LABELS={early:'☀️ 早晨',noon:'🌤 上午/中午',aft:'🌇 下午',eve:'🌆 傍晚',any:'📌 随时'};
+function timeClassFromKey(t){return{early:'t-early',noon:'t-noon',aft:'t-aft',eve:'t-eve',any:'t-any'}[t]||'t-any';}
+
+// ── SCRIPTS LIBRARY ────────────────────────────────────
+function renderScriptsList(){
+  const scripts=load('cp_saved_scripts',[]);
+  const el=document.getElementById('scriptsList');
+  if(!scripts.length){
+    el.innerHTML='<div class="empty"><div class="empty-icon">🎬</div><div>还没有脚本</div><div style="margin-top:6px;font-size:11px;color:var(--ink4);">从上方导入 JSON 文件，或在 Claude 对话里生成脚本后上传</div></div>';
+    return;
+  }
+  el.innerHTML=scripts.map((s,idx)=>renderScriptCard(s,idx)).join('');
+}
+
+function renderScriptCard(s,idx){
+  const d=s.data||{};
+  const shots=d.shots||[];
+  const statusKey=load('cp_script_status_'+s.id,'pending');
+  const statusMap={pending:{label:'待拍',cls:'active-pending'},shooting:{label:'拍摄中',cls:'active-shooting'},editing:{label:'剪辑中',cls:'active-editing'},published:{label:'已发布',cls:'active-published'}};
+  const statusBtns=Object.entries(statusMap).map(([k,v])=>`<button class="script-status-btn${statusKey===k?' '+v.cls:''}" onclick="event.stopPropagation();setScriptStatus('${s.id}',this,'${k}')">${v.label}</button>`).join('');
+  return`<div class="script-video-card" id="svc_${s.id}">
+    <div class="svc-header" onclick="toggleScriptCard('${s.id}',this)">
+      <div class="svc-num">#${String(idx+1).padStart(2,'0')}</div>
+      <div class="svc-info">
+        <div class="svc-title">${d.title||s.idea||'未命名脚本'}</div>
+        <div class="svc-meta">
+          <span class="svc-tag">${shots.length} 个镜头</span>
+          ${d.duration?`<span class="svc-tag">${d.duration}`+`</span>`:''}
+          ${d.positioning?`<span class="svc-tag gold">${d.positioning.split(/[，,]/)[0]}</span>`:''}
+        </div>
+        <div class="script-status-row">${statusBtns}</div>
+      </div>
+      <button class="svc-del" onclick="event.stopPropagation();delScriptConfirm('${s.id}')">×</button>
+      <div class="svc-arr">▶</div>
+    </div>
+    <div class="svc-body" id="svcb_${s.id}">
+      ${d.positioning?`<div class="svc-positioning">📍 ${d.positioning}</div>`:''}
+      ${d.editTip?`<div class="svc-edittip"><div class="svc-edittip-label">✂️ 剪辑提示</div>${d.editTip}</div>`:''}
+      ${shots.length?`<div class="svc-shots"><div class="svc-shots-label">镜头脚本（${shots.length} 个）</div>${shots.map(sh=>renderShotDetail(sh,s.id)).join('')}</div>`:''}
+      ${d.xhsCopy?`<div class="svc-xhs"><div class="svc-xhs-label">小红书文案</div><div class="svc-xhs-text">${d.xhsCopy}</div></div>`:''}
+      <div style="height:14px;"></div>
+    </div>
+  </div>`;
+}
+
+function renderShotDetail(sh,scriptId){
+  const locMeta=sh.locationId&&LOC_META[sh.locationId]?LOC_META[sh.locationId]:null;
+  const timeLabel=sh.time?TIME_LABELS[sh.time]||sh.time:null;
+  const tc=sh.time?timeClassFromKey(sh.time):'t-any';
+  return`<div class="svc-shot">
+    <div class="svc-shot-head" onclick="toggleShotDetail('${scriptId}_${sh.no}',this)">
+      <div class="sshot-num">#${sh.no}</div>
+      <div class="sshot-info">
+        <div class="sshot-scene">${sh.scene}</div>
+        <div class="sshot-tags">
+          ${locMeta?`<span class="sshot-loc">${locMeta.icon} ${locMeta.name}</span>`:''}
+          ${timeLabel?`<span class="stag sshot-time ${tc}">${timeLabel}</span>`:''}
+          ${sh.device?`<span class="dtag d-dev" style="font-size:9px;">📷 ${sh.device}</span>`:''}
+          ${sh.orient?`<span class="dtag d-ori" style="font-size:9px;">${sh.orient}</span>`:''}
+        </div>
+      </div>
+      <div class="sshot-arr">▶</div>
+    </div>
+    <div class="svc-shot-detail" id="ssd_${scriptId}_${sh.no}">
+      ${sh.visual?`<div class="ssd-sec"><div class="ssd-label">画面 & 拍摄角度</div><div class="ssd-txt">${sh.visual}</div></div>`:''}
+      ${sh.audio?`<div class="ssd-sec"><div class="ssd-label">台词 / 字幕 / 声音</div><div class="ssd-audio">${sh.audio}</div></div>`:''}
+      ${sh.tip?`<div class="ssd-tip">💡 ${sh.tip}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function setScriptStatus(id,btn,status){
+  store('cp_script_status_'+id,status);
+  const m={pending:'active-pending',shooting:'active-shooting',editing:'active-editing',published:'active-published'};
+  btn.closest('.script-status-row').querySelectorAll('.script-status-btn').forEach(b=>Object.values(m).forEach(c=>b.classList.remove(c)));
+  btn.classList.add(m[status]);
+  toast({pending:'待拍',shooting:'拍摄中',editing:'剪辑中',published:'已发布'}[status]+' ✓');
+}
+function toggleScriptCard(id,header){const body=document.getElementById('svcb_'+id);const open=body.classList.toggle('open');header.classList.toggle('open',open);}
+function toggleShotDetail(uid,header){const det=document.getElementById('ssd_'+uid);const open=det.classList.toggle('open');header.classList.toggle('open',open);}
+function delScriptConfirm(id){
+  let scripts=load('cp_saved_scripts',[]);
+  scripts=scripts.filter(s=>s.id!=id);
+  store('cp_saved_scripts',scripts);
+  renderScriptsList();
+  toast('脚本已删除');
+}
+
+// ── IMPORT MODULE ──────────────────────────────────────
+let pendingImport=null;
+function handleImportFile(input){
+  const file=input.files[0];
+  if(!file)return;
+  document.getElementById('importFileName').textContent=file.name;
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    try{
+      const raw=e.target.result.replace(/```json|```/g,'').trim();
+      const data=JSON.parse(raw);
+      pendingImport=data;
+      showImportPreview(data);
+    }catch(err){
+      document.getElementById('importPreview').innerHTML=`<div style="color:var(--red);font-size:12px;padding:8px 0;">❌ 文件格式有误，请上传有效的 JSON 文件</div>`;
+      pendingImport=null;
+    }
+  };
+  reader.readAsText(file);
+  input.value='';
+}
+function showImportPreview(data){
+  const shots=data.shots||[];
+  const assignable=shots.filter(s=>s.locationId&&s.time).length;
+  document.getElementById('importPreview').innerHTML=`<div class="preview-card">
+    <div class="preview-title">${data.title||'未命名脚本'}</div>
+    <div class="preview-meta">${data.positioning||''} ${data.duration?'· '+data.duration:''}</div>
+    <div class="preview-shots-count">共 ${shots.length} 个镜头，其中 <strong style="color:var(--g)">${assignable} 个</strong>已分配地点和时间，将自动添加到拍摄清单</div>
+    <div class="preview-actions">
+      <button class="btn-import-cancel" onclick="cancelImport()">取消</button>
+      <button class="btn-import-confirm" onclick="confirmImport()">确认导入</button>
+    </div>
+  </div>`;
+}
+function cancelImport(){
+  pendingImport=null;
+  document.getElementById('importPreview').innerHTML='';
+  document.getElementById('importFileName').textContent='点击上传 JSON 脚本文件';
+}
+function confirmImport(){
+  if(!pendingImport)return;
+  const data=pendingImport;
+  const scripts=load('cp_saved_scripts',[]);
+  const newScript={id:Date.now(),idea:data.title||'',date:new Date().toLocaleDateString('zh-CN'),data:data};
+  scripts.unshift(newScript);
+  store('cp_saved_scripts',scripts);
+  const shots=data.shots||[];
+  let added=0;
+  shots.forEach(sh=>{
+    if(!sh.locationId||!sh.time)return;
+    const loc=LOCATIONS.find(l=>l.id===sh.locationId);
+    if(!loc)return;
+    const shotId='imp_'+newScript.id+'_'+sh.no;
+    if(loc.shots.find(s=>s.id===shotId))return;
+    loc.shots.push({id:shotId,scene:sh.scene||'',time:sh.time,tName:TIME_LABELS[sh.time]||sh.time,launch:false,dev:sh.device||'手机',ori:sh.orient||'竖屏',visual:sh.visual||'',audio:sh.audio||'',tip:sh.tip||''});
+    added++;
+  });
+  renderScriptsList();renderFilterBar();renderShots();
+  cancelImport();
+  toast(`脚本已导入，${added} 个镜头已添加到拍摄清单 ✓`);
+}
+
+// 预置脚本（首次注入）
+const PRESET_SCRIPTS=SCRIPTS.map(s=>({id:'preset_'+s.id,idea:s.title,date:'2025/1/1',data:{title:s.title,positioning:s.positioning,duration:s.duration,editTip:s.editTip,xhsCopy:s.xhsCopy,shots:s.shots.map((sh,i)=>({no:sh.no||i+1,scene:sh.scene,time:sh.time||'any',device:sh.dev,orient:sh.ori,visual:sh.visual,audio:sh.audio,tip:sh.tip}))}}));
+if(!load('cp_saved_scripts')){store('cp_saved_scripts',PRESET_SCRIPTS);}
+
+function renderScripts(){renderScriptsList();}
+
+// ── PAGE 3: CALENDAR ──────────────────────────────────
+let calDate=new Date();
+let selectedDate=null;
+let selectedPlatforms=[];
+
+function changeMonth(d){calDate.setMonth(calDate.getMonth()+d);renderCal();}
+
+function renderCal(){
+  const y=calDate.getFullYear(),m=calDate.getMonth();
+  document.getElementById('calMonth').textContent=`${y}年${m+1}月`;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  ['一','二','三','四','五','六','日'].forEach(d=>{const el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);});
+  const first=new Date(y,m,1).getDay();
+  const adj=first===0?6:first-1;
+  for(let i=0;i<adj;i++){const el=document.createElement('div');el.className='cal-day';grid.appendChild(el);}
+  const days=new Date(y,m+1,0).getDate();
+  const today=new Date();
+  const posts=load('cp_cal_posts',{});
+  for(let d=1;d<=days;d++){
+    const el=document.createElement('div');el.className='cal-day';el.textContent=d;
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    if(y===today.getFullYear()&&m===today.getMonth()&&d===today.getDate())el.classList.add('today');
+    if(posts[key]&&posts[key].length)el.classList.add('has-post');
+    if(selectedDate===key)el.classList.add('selected');
+    const dot=document.createElement('div');dot.className='dot';
+    if(posts[key]&&posts[key].length)el.appendChild(dot);
+    el.addEventListener('click',()=>{selectedDate=key;renderCal();renderCalDetail(key);});
+    grid.appendChild(el);
+  }
+}
+
+function renderCalDetail(key){
+  const posts=load('cp_cal_posts',{})[key]||[];
+  const d=new Date(key);
+  document.getElementById('calDetailTitle').textContent=fmtDate(d);
+  const el=document.getElementById('calPosts');
+  if(!posts.length){el.innerHTML='<div class="empty-cal">这一天还没有发布计划<br><small>点击右上角「+ 添加」</small></div>';return;}
+  el.innerHTML=`<div class="post-list">${posts.map(p=>`
+    <div class="post-item">
+      <div class="post-status st-${p.status}"></div>
+      <div class="post-info">
+        <div class="post-title">${p.title}</div>
+        <div class="post-tags">
+          ${p.platforms.includes('douyin')?'<span class="post-tag douyin">抖音</span>':''}
+          ${p.platforms.includes('xhs')?'<span class="post-tag xiaohongshu">小红书</span>':''}
+          <span class="post-tag">${{draft:'草稿',ready:'待发布',published:'已发布'}[p.status]}</span>
+        </div>
+        ${p.note?`<div style="font-size:11px;color:var(--ink3);margin-top:3px;">${p.note}</div>`:''}
+      </div>
+      <button class="post-del" onclick="delPost('${key}',${p.id})">×</button>
+    </div>`).join('')}</div>`;
+}
+
+function openModal(){
+  if(!selectedDate){toast('请先选择日期');return;}
+  document.getElementById('postTitle').value='';
+  document.getElementById('postStatus').value='draft';
+  document.getElementById('postNote').value='';
+  selectedPlatforms=[];
+  document.querySelectorAll('.plt-btn').forEach(b=>b.classList.remove('active'));
+  const scripts=load('cp_saved_scripts',[]);
+  const sel=document.getElementById('postScriptPick');
+  sel.innerHTML='<option value="">— 手动输入标题 —</option>'+scripts.map(s=>`<option value="${(s.data&&s.data.title)||s.idea||''}">${(s.data&&s.data.title)||s.idea||'未命名脚本'}</option>`).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function onScriptPick(sel){if(sel.value)document.getElementById('postTitle').value=sel.value;}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function togglePlatform(btn){
+  const plt=btn.dataset.plt;btn.classList.toggle('active');
+  if(selectedPlatforms.includes(plt))selectedPlatforms=selectedPlatforms.filter(p=>p!==plt);
+  else selectedPlatforms.push(plt);
+}
+function savePost(){
+  const title=document.getElementById('postTitle').value.trim();
+  if(!title){toast('请输入标题');return;}
+  const posts=load('cp_cal_posts',{});
+  if(!posts[selectedDate])posts[selectedDate]=[];
+  posts[selectedDate].push({id:Date.now(),title,status:document.getElementById('postStatus').value,platforms:selectedPlatforms,note:document.getElementById('postNote').value.trim()});
+  store('cp_cal_posts',posts);
+  closeModal();renderCal();renderCalDetail(selectedDate);toast('已添加 ✓');
+}
+function delPost(dateKey,id){
+  const posts=load('cp_cal_posts',{});
+  if(posts[dateKey])posts[dateKey]=posts[dateKey].filter(p=>p.id!=id);
+  store('cp_cal_posts',posts);renderCal();renderCalDetail(dateKey);toast('已删除');
+}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+
+// ── PAGE 4: NOTES ──────────────────────────────────────
+let noteType='idea';
+const noteTypeMap={idea:{label:'选题灵感',cls:'nb-idea'},obs:{label:'现场观察',cls:'nb-obs'},feel:{label:'感受',cls:'nb-feel'},other:{label:'两人互动',cls:'nb-other'}};
+function setNoteType(btn){document.querySelectorAll('.ntbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');noteType=btn.dataset.type;}
+function saveNote(){
+  const text=document.getElementById('noteInput').value.trim();
+  if(!text){toast('请先输入内容');return;}
+  const notes=load('cp_notes',[]);
+  notes.unshift({id:Date.now(),text,type:noteType,date:new Date().toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})});
+  store('cp_notes',notes);
+  document.getElementById('noteInput').value='';
+  renderNotes();toast('已记下 ✓');
+}
+function renderNotes(){
+  const q=(document.getElementById('noteSearch')?.value||'').trim().toLowerCase();
+  let notes=load('cp_notes',[]);
+  if(q)notes=notes.filter(n=>n.text.toLowerCase().includes(q));
+  const el=document.getElementById('notesList');
+  if(!notes.length){el.innerHTML='<div class="empty"><div class="empty-icon">✏️</div>'+(q?'没有匹配的灵感':'随手记下两人的互动，素材就在生活里')+'</div>';return;}
+  el.innerHTML=notes.map(n=>`
+    <div class="note-card">
+      <div class="note-type-badge ${noteTypeMap[n.type]?.cls||'nb-other'}">${noteTypeMap[n.type]?.label||'其他'}</div>
+      <div class="note-text">${n.text}</div>
+      <div class="note-date">${n.date}</div>
+      <button class="note-send-btn" onclick="openCopyModal(${n.id})">✦ 发给 Claude</button>
+      <button class="note-del" onclick="delNote(${n.id})">×</button>
+    </div>`).join('');
+}
+let _copyNoteId=null;
+function openCopyModal(id){
+  const notes=load('cp_notes',[]);
+  const n=notes.find(n=>n.id===id);
+  if(!n)return;
+  _copyNoteId=id;
+  const typeLabel=noteTypeMap[n.type]?.label||'其他';
+  const text=`【情侣账号 灵感速记】\n类型：${typeLabel}\n记录时间：${n.date}\n\n内容：\n${n.text}\n\n---\n请基于以上灵感，帮我生成一条适合抖音/小红书的短视频脚本。背景：我们是住在卡萨布兰卡的情侣，账号定位是记录两人真实日常的反差喜剧内容。`;
+  document.getElementById('copyModalText').textContent=text;
+  document.getElementById('copyModalOverlay').classList.add('open');
+}
+function closeCopyModal(){document.getElementById('copyModalOverlay').classList.remove('open');}
+function doCopy(){
+  const text=document.getElementById('copyModalText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{toast('已复制，粘贴到 Claude 对话框 ✓');closeCopyModal();}).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    toast('已复制 ✓');closeCopyModal();
+  });
+}
+document.getElementById('copyModalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeCopyModal();});
+function delNote(id){let notes=load('cp_notes',[]);notes=notes.filter(n=>n.id!=id);store('cp_notes',notes);renderNotes();}
+
+renderTodayBanner();renderFilterBar();renderShots();renderScripts();renderCal();renderNotes();
+</script>
+</body>
+</html>
